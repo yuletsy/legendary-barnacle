@@ -29,12 +29,31 @@ class _DemoState extends State<Demo> {
       valoresIngresados.removeLast();
     });
   }
+
+  void mostrarAlert(){
+    AlertDialog dialog = AlertDialog(
+      content: Text("¿Esta seguro de que quiere eliminiar esa frase?"),
+      actions: [
+        TextButton(onPressed:(){
+          eliminarValor();
+        }, child: Text("SI")),
+        TextButton(onPressed: (){
+          Navigator.pop(context);
+        }, child: Text("NO"))
+      ],
+    );
+    showDialog(context: context, builder: (BuildContext context){
+      return dialog;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Demo")
       ),
-      body: Container(
+      body: ListView(
+        children:[
+          Container(
         child: Column(
           children: [
             TextField(
@@ -52,23 +71,25 @@ class _DemoState extends State<Demo> {
                 }, 
                 child: Text("Agregar Texto"),
                 ),
-                ElevatedButton(onPressed: (){
-                  eliminarValor();
-                }, 
+                ElevatedButton(
                 child: Text("Eliminar Texto"),
-                )
+                onPressed: valoresIngresados.isNotEmpty ? (){
+                    mostrarAlert();
+                }
+                :null),
               ],
             ),
             Column(
               children: 
                 valoresIngresados 
-              
-
             )
-
+        
           ],
         ),
-      ),
+          )
+      
+        ],
+    ),
     );
   }
 }
